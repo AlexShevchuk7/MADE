@@ -1,0 +1,50 @@
+advanced.hdfs_get_block_information:
+  stdin: hdfs fsck -blockId blk_1073743032
+advanced.hdfs_get_files_and_block:
+  stdin: hdfs fsck /data/wiki/en_articles_part/articles-part -files -blocks -locations
+advanced.hdfs_set_file_replication:
+  stdin: hdfs dfs -setrep -w 2 /data/wiki/en_articles_part/articles-part
+advanced.webhdfs_change_file_replication:
+  stdin: 'curl -i -L PUT "http://brain-master:50070/webhdfs/v1/user/mail_2021q1/a.shevchuk/myfile.txt?op=SETREPLICATION&replication=2"
+
+    '
+advanced.webhdfs_curl_follow_redirects:
+  stdin: curl -i -L "http://brain-master:50070/webhdfs/v1/data/wiki/en_articles_part/articles-part?op=OPEN&length=100
+advanced.webhdfs_get_file_detailed_information:
+  stdin: curl -i -L "http://brain-master:50070/webhdfs/v1/data/wiki/en_articles_part/articles-part?op=GETFILESTATUS
+advanced.webhdfs_read_100B:
+  stdin: curl -i -L "http://brain-master:50070/webhdfs/v1/data/wiki/en_articles_part/articles-part?op=OPEN&length=100
+beginner.how_many_items_in_hdfs:
+  stdin: 9
+intermediate.hdfs_copy_file:
+  stdin: hdfs dfs -cp /user/mail_2021q1/a.shevchuk/myfile.txt /user/mail_2021q1/a.shevchuk/newfile.txt
+intermediate.hdfs_create_empty_file:
+  stdin: hdfs dfs -touchz /user/mail_2021q1/a.shevchuk/myfile.txt
+intermediate.hdfs_create_folder:
+  stdin: hdfs dfs -mkdir /user/mail_2021q1/a.shevchuk
+intermediate.hdfs_create_nested_folder:
+  stdin: hdfs dfs -mkdir -p /user/mail_2021q1/a.shevchuk/folder1/folder2/folder3
+intermediate.hdfs_create_small_file:
+  stdin: hdfs dfs -put sample.txt /user/mail_2021q1/a.shevchuk
+intermediate.hdfs_cumulative_size:
+  stdin: hdfs dfs -du -s -x /data/wiki
+intermediate.hdfs_describe_size:
+  stdin: actual
+intermediate.hdfs_file_replication_factor:
+  stdin: 3
+intermediate.hdfs_folder_replication_factor:
+  stdin: 0
+intermediate.hdfs_list_recursively_human_readable:
+  stdin: hdfs dfs -ls -R -h /data/wiki
+intermediate.hdfs_move_file:
+  stdin: hdfs dfs -mv /user/mail_2021q1/a.shevchuk/newfile.txt /user/mail_2021q1/a.shevchuk/folder
+intermediate.hdfs_output_file:
+  stdin: hdfs dfs -cat /user/mail_2021q1/a.shevchuk/sample.txt
+intermediate.hdfs_output_file_end:
+  stdin: hdfs dfs -tail /user/mail_2021q1/a.shevchuk/sample.txt
+intermediate.hdfs_remove_nested_folders:
+  stdin: hdfs dfs -rm -r /user/mail_2021q1/a.shevchuk/folder1
+intermediate.hdfs_tail_vs_unix_tail:
+  stdin: tail -c 1024
+intermediate.hdfs_trash_behavior:
+  stdin: hdfs dfs -rm -r -skipTrash /user/mail_2021q1/a.shevchuk/folder1
