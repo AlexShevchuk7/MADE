@@ -7,6 +7,9 @@ metadata:
 spec:
   containers:
     - image: alexeyshevchuk/online_inference:v2
+      name: inference
+      ports:
+        - containerPort: 8000
       readinessProbe:
         httpGet:
           path: /health
@@ -26,6 +29,3 @@ spec:
         limits:
           memory: "5Gi"
           cpu: "1000m"
-      name: inference
-      ports:
-        - containerPort: 8000
