@@ -1,0 +1,16 @@
+hdfs dfs -mkdir /MADE
+hdfs dfs -mkdir /MADE/bigdata
+hdfs dfs -touchz /MADE/bigdata/somefile.txt
+hdfs dfs rm -skipTrash /MADE/bigdata/somefile.txt
+hdfs dfs -rm -r /MADE/bigdata
+hdfs dfs -mkdir /Lyrics
+hdfs dfs -put 1979 /Lyrics
+hdfs dfs -cat /Lyrics/1979
+hdfs dfs -tail /Lyrics/1979
+hdfs dfs -head /Lyrics/1979
+hdfs dfs -cp /Lyrics/1979 /Texts
+hdfs dfs -setrep -w 2  /Lyrics/1979
+hdfs fsck /Lyrics/1979 -files -blocks -locations
+hdfs fsck -blockId blk_1073741830
+
+
