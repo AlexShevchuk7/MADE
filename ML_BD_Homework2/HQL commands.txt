@@ -1,0 +1,61 @@
+A) 
+SELECT artist_mb, SUM(scrobbles_lastfm) as scrobbles FROM hue__tmp_artists
+GROUP BY artist_mb
+SORT BY scrobbles DESC 
+LIMIT 1;
+
+Artist_mb 	scrobbles
+Phoenix		1099743582
+
+B)
+SELECT tags, count(tags) AS occurence FROM 
+(SELECT explode(split(tags_lastfm, ';')) AS tags FROM hue__tmp_artists) all_tags
+GROUP BY all_tags.tags
+ORDER BY occurence DESC
+LIMIT 1;
+
+tags 	      occurence
+seen live	56322
+
+C)
+SELECT artist_lastfm, sum(scrobbles_lastfm) AS popularity
+FROM
+(SELECT DISTINCT artist_lastfm, scrobbles_lastfm, genre FROM hue__tmp_artists 
+LATERAL VIEW explode(split(tags_lastfm, ';')) artists AS genre) artists
+WHERE genre IN
+(SELECT ten_tags.tags FROM
+(SELECT tags, count(tags) AS occurence FROM 
+(SELECT explode(split(tags_lastfm, ';')) AS tags FROM hue__tmp_artists) all_tags
+GROUP BY all_tags.tags
+ORDER BY occurence DESC
+LIMIT 10) ten_tags)
+GROUP BY artist_lastfm
+ORDER BY popularity DESC
+LIMIT 10;
+
+artist_lastfm 	popularity
+Radiohead	3496841579
+Muse		2413870417
+Kanye West	1908830800
+Coldplay	1800559250
+Lady Gaga	1712817882
+Arctic Monkeys	1661532760
+Pink Floyd	1566180595
+Linkin Park	1474932540
+Daft Punk	1466514854
+Britney Spears	1413732068
+
+D) THE MOST UNPOPULAR COUNTRY BY SCROBBLES_LASTFM:
+
+SELECT unpop.country_mb FROM
+(SELECT country_mb, sum(scrobbles_lastfm) AS country_pop
+FROM hue__tmp_artists 
+GROUP BY country_mb
+ORDER BY country_pop ASC) unpop
+LIMIT 2;
+
+unpop.country_mb
+1	NULL
+2	Malawi
+
+
